@@ -1,0 +1,934 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Jak zacząć pracę z Reactem</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="e4ec82dd-55c7-46cf-a202-979a71d8095a" class="page sans"><header><img class="page-cover-image" src="https://images.unsplash.com/photo-1581276879432-15e50529f34b?ixlib=rb-4.0.3&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb" style="object-position:center 35.36%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="Jak%20zacząć%20pracę%20z%20Reactem/react-1-logo-png-transparent.png"/></div><h1 class="page-title">Jak zacząć pracę z Reactem</h1><p class="page-description"></p></header><div class="page-body"><blockquote id="a4b01ba6-9935-4199-ae1c-af778adc706a" class="">Filip Madzia i Przemysław Pytlarz</blockquote><h1 id="22efeee4-56c8-486a-b6e4-c7574bbff2ec" class="">Czym jest React?</h1><p id="c5f9193b-4d95-4f6e-a3cc-6166e1bee841" class="">React jest wydajną i elastyczną biblioteką JavaScript służącą do budowania złożonych interfejsów użytkownika przy użyciu małych i odizolowanych od siebie kawałków kodu, czyli <strong>komponentów.</strong></p><h1 id="537a3617-7586-4328-bb12-f4b318f277e8" class="">Dlaczego warto korzystać z Reacta?</h1><table id="058b3352-05d2-480d-ab8f-961d4a0a33e0" class="simple-table"><thead class="simple-table-header"><tr id="83f7d4e0-c7b8-4fcf-8c62-ebeb77cd0613"><th id="MUxK" class="simple-table-header-color simple-table-header" style="width:345px"><mark class="highlight-teal">Zalety</mark></th><th id="OUDU" class="simple-table-header-color simple-table-header" style="width:345px"><mark class="highlight-red">Wady</mark></th></tr></thead><tbody><tr id="248cf427-446c-40ae-bba7-6e86e208ed2a"><td id="MUxK" class="" style="width:345px">Niski próg wejścia</td><td id="OUDU" class="" style="width:345px">Duża zależność od dodatkowych bibliotek</td></tr><tr id="6587b958-822a-48c7-9b60-d9600f718272"><td id="MUxK" class="" style="width:345px">Jednokierunkowy przepływ danych</td><td id="OUDU" class="" style="width:345px">Wysoka częstotliwość aktualizacji bibliotek</td></tr><tr id="312c6f50-7a10-4fdf-8458-fbd1b60ff5ca"><td id="MUxK" class="" style="width:345px">Open-source</td><td id="OUDU" class="" style="width:345px"></td></tr><tr id="9c838c4d-e386-4fd5-b06f-fcc4bba07b22"><td id="MUxK" class="" style="width:345px">Wirtualny DOM</td><td id="OUDU" class="" style="width:345px"></td></tr><tr id="9cbc35b2-adfa-440e-b7d3-88353ed3d32b"><td id="MUxK" class="" style="width:345px">Komponenty wielokrotnego użytku</td><td id="OUDU" class="" style="width:345px"></td></tr><tr id="3485e0a9-7bc9-45d7-a161-d1118bfcacb6"><td id="MUxK" class="" style="width:345px">Możliwość renderowania po stronie serwera (SSR)</td><td id="OUDU" class="" style="width:345px"></td></tr><tr id="89ca8641-c996-46e2-8fbb-2cd9558f2b9f"><td id="MUxK" class="" style="width:345px">Duża społeczność deweloperów</td><td id="OUDU" class="" style="width:345px"></td></tr></tbody></table><figure id="3bdf4559-6a4e-47bb-a78e-8a8f392b881e" class="image"><a href="Jak%20zacząć%20pracę%20z%20Reactem/Untitled.png"><img style="width:1600px" src="Jak%20zacząć%20pracę%20z%20Reactem/Untitled.png"/></a></figure><h1 id="e07b96e9-d01c-4765-adbe-a16b1930525e" class="">Co będzie potrzebne by zacząć pracę z Reactem?</h1><ul id="81b07fda-dca7-4dc0-a0fc-a89d63add9ea" class="bulleted-list"><li style="list-style-type:disc">Node.js</li></ul><ul id="5fec7257-8616-41e8-9f1b-025f218b19c5" class="bulleted-list"><li style="list-style-type:disc">Dowolny edytor kodu (polecamy Visual Studio Code)</li></ul><ul id="4689aa21-84a4-427f-b5eb-dae8d906177c" class="bulleted-list"><li style="list-style-type:disc">Znajomość języków: HTML, CSS, JavaScript lub TypeScript</li></ul><h1 id="2bb4a510-90dd-4448-b55b-734b54321642" class="">Stworzenie pierwszego projektu</h1><p id="05880d57-c7cd-4273-baf9-c39ceb71aa1d" class="">Z użyciem npx</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="60ff75d5-e96d-459b-8179-28acd593f52b" class="code"><code class="language-PowerShell">npx create-react-app my-app</code></pre><p id="9c312ed5-4817-4e07-bdf0-2d2d17f30dca" class="">Z użyciem npm</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="625d0962-c213-4e9d-b5c7-df5de89523f8" class="code"><code class="language-PowerShell">npm init react-app my-app</code></pre><p id="fcdb7eee-13c4-493f-9197-a414e9ee03b9" class="">Z użyciem Yarn</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="12ba6568-4053-4d82-85f6-e866e4a11d3a" class="code"><code class="language-PowerShell">yarn create react-app my-app</code></pre><h1 id="af8457be-f378-4e85-a75b-1b7e1df5264f" class="">Włączenie projektu</h1><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ca4ca082-9a72-4ade-bae7-8ff9ae5ea283" class="code"><code class="language-PowerShell">cd my-app
+
+npm start</code></pre><p id="e14b43d3-4d69-4ab1-b387-3a6111b24323" class="">Projekt będzie możliwy do zobaczenia:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="0d6e010b-c94b-454f-a0d3-a41270d6252e" class="code"><code class="language-Bash">http://localhost:3000</code></pre><figure id="eb75ee1c-0d06-40f1-8c05-f3e80a6f6138" class="image"><a href="Jak%20zacząć%20pracę%20z%20Reactem/Untitled%201.png"><img style="width:720px" src="Jak%20zacząć%20pracę%20z%20Reactem/Untitled%201.png"/></a></figure><blockquote id="703ddbf8-a6e6-4f10-8a22-d6c53ff4ff17" class="">Link do poradnika React: <a href="https://react.dev/learn">https://react.dev/learn</a></blockquote><h1 id="de7f3502-f18f-41c4-8fc3-7e0b158d7abb" class="">Wyczyszczenie strony głównej</h1><p id="8afda7d2-a7a1-4a3a-9944-1b370d04f6a0" class="">( wszystkie pliki z komponentami znajdują się w folderze <code>src</code> )</p><p id="1c73a7f7-c7f3-42bc-bd21-facf761d8235" class="">w pliku <code>App.js</code> pozostaw tylko:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1ff03b1d-1305-442a-bb80-27ae5fa49ce5" class="code"><code class="language-JavaScript">import &#x27;./App.css&#x27;;
+
+function App() {
+  return (
+    &lt;div className=&quot;App&quot;&gt;
+      
+    &lt;/div&gt;
+  );
+}
+
+export default App;</code></pre><p id="a777332c-6045-48bf-802e-3c787efcabf3" class="">a pliki <code>App.css</code> pozostaw pusty lub:<br/><br/></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5b96daf0-3c6d-4efe-81fd-101076879279" class="code"><code class="language-CSS">.App {
+  text-align: center;
+}</code></pre><blockquote id="7ff8911d-6ee8-4ae0-b6da-6ca3157e1f91" class="">repo z wyczyszczoną stroną główną: <a href="https://github.com/Matetorture/React-example/tree/main/my-app">https://github.com/Matetorture/React-example/tree/main/my-app</a></blockquote><h1 id="fe1ae1fd-2e80-4949-89fc-a04c1cfa184b" class="">Komponenty</h1><p id="293595df-ee7a-453d-900b-17129b69d011" class="">komponenty można pisać za pomocą funkcji lub za pomocą klasy</p><p id="3993bd67-9791-4de8-b39b-780a87f419c5" class="">
+</p><p id="f15ba9eb-2e82-4093-ae1f-27b5792d6d94" class=""><strong>Function</strong> - komponent za pomocą funkcji <code>MyComponent.js</code></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ada21f37-2105-47be-810d-1515ce9d4bb3" class="code"><code class="language-JavaScript">function MyComponent() {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Mój komponent&lt;/h1&gt;
+      &lt;p&gt;To jest przykładowy komponent funkcyjny.&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default MyComponent;</code></pre><p id="ba6e78b0-f8c6-45fb-8891-8c31ce28a446" class=""><strong>Class</strong> - komponent za pomocą klasy <code>MyComponent.js</code></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="6e5a8a97-9275-4cd4-8392-0b25cb5dccbd" class="code"><code class="language-JavaScript">import React from &#x27;react&#x27;;
+
+class MyComponent extends React.Component {
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h1&gt;Mój komponent&lt;/h1&gt;
+        &lt;p&gt;To jest przykładowy komponent klasowy.&lt;/p&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+export default MyComponent;</code></pre><p id="26a9e148-a6db-4fab-b2e5-bfb472431faf" class="">Wykorzystanie komponentu w <code>App.js</code> </p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="6556176a-f3d7-4a1a-8c6a-ea6462fb060f" class="code"><code class="language-JavaScript">import &#x27;./App.css&#x27;;
+import MyComponent from &#x27;./MyComponent&#x27;;
+
+function App() {
+  return (
+    &lt;div className=&quot;App&quot;&gt;
+      &lt;MyComponent/&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;</code></pre><h1 id="7d9f5b3a-21f6-447c-9380-c67b8dcd45b1" class="">Właściwości przesyłane do komponentu</h1><p id="850057eb-0a5c-44af-9ea3-b146aaac8167" class=""><code>Powitanie.js</code></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="cd1d9d9b-b760-4227-8b4b-a53f31eaca03" class="code"><code class="language-JavaScript">function Powitanie(props) {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Cześć, {props.imie}!&lt;/h1&gt;
+      &lt;p&gt;Jak się masz dzisiaj?&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}</code></pre><p id="86fee91d-b3f4-4bc3-9262-2c2a100e0653" class=""><code>App.js</code></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="50a606c0-ef38-453f-bfb5-be78cb8a6e40" class="code"><code class="language-JavaScript">import &#x27;./App.css&#x27;;
+import Powitanie from &#x27;./Powitanie&#x27;;
+
+function App() {
+  return (
+    &lt;div className=&quot;App&quot;&gt;
+      &lt;Powitanie imie=&quot;Jan&quot; /&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;</code></pre><p id="52d8a6e2-4729-462e-bd16-35e54c0ee7b8" class="">Spowoduje to wyświetlenie następującego kodu HTML:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="26623242-1af9-4162-b708-93281e2174ad" class="code"><code class="language-JavaScript">&lt;div&gt;
+  &lt;h1&gt;Cześć, Jan!&lt;/h1&gt;
+  &lt;p&gt;Jak się masz dzisiaj?&lt;/p&gt;
+&lt;/div&gt;</code></pre><h1 id="e657151d-4350-44ff-978a-04c2aff84fd0" class="">State</h1><p id="55aedc70-d6ca-4825-b2da-bbb1e596cdf7" class="">służy do przechowywania i zarządzania <strong>dynamicznymi danymi</strong> specyficznymi dla danego komponentu. Jest to lokalny magazyn danych, który umożliwia komponentowi zapamiętywanie i aktualizowanie informacji bez wpływu na inne komponenty.</p><p id="f77fc712-de38-4a92-95c9-c5086246d334" class=""><code>Counter.js</code></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="2f14367c-1c01-419d-bde2-4994950a967d" class="code"><code class="language-JavaScript">import React from &#x27;react&#x27;;
+
+class Counter extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { count: 0 };
+  }
+
+  increment = () =&gt; {
+    this.setState((prevState) =&gt; ({ count: prevState.count + 1 }));
+  };
+
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h1&gt;Licznik: {this.state.count}&lt;/h1&gt;
+        &lt;button onClick={this.increment}&gt;Zwiększ&lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+export default Counter;</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="e84ea5a2-5e33-4e55-bb6b-b0d57fd1ab7d" class="code"><code class="language-JavaScript">import React, { useState } from &#x27;react&#x27;;
+
+function Form() {
+  const [count, setCount] = useState(0);
+
+  const increment = () =&gt; {
+    setCount((prevState) =&gt; prevState + 1);
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Licznik: {count}&lt;/h1&gt;
+      &lt;button onClick={increment}&gt;Zwiększ&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default Form;</code></pre><h2 id="aaad8cc3-04df-4e46-9124-a853df6c67d0" class="">Przykład formularza</h2><blockquote id="bf3a7add-94de-4dc0-a9b7-333faa647621" class="">repo z projektem: <a href="https://github.com/Matetorture/React-example/tree/form/my-app">https://github.com/Matetorture/React-example/tree/form/my-app</a></blockquote><p id="4b857b3e-847d-48cf-9340-776d10e9103f" class=""><code>Form.js</code></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="9ce0e5fc-aefa-4522-a46f-1919d70bbefe" class="code"><code class="language-JavaScript">import React, { useState } from &#x27;react&#x27;;
+
+function Form() {
+  const [name, setName] = useState({ firstName: &#x27;Jan&#x27;, lastName: &#x27;K&#x27; });
+
+  const handleChange = (event) =&gt; {
+    setName({ ...name, [event.target.name]: event.target.value });
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;form&gt;
+        &lt;label htmlFor=&quot;firstName&quot;&gt;First name&lt;/label&gt;
+        &lt;input
+          type=&quot;text&quot;
+          name=&quot;firstName&quot;
+          value={name.firstName}
+          onChange={handleChange}
+        /&gt;
+
+        &lt;br/&gt;
+        &lt;br/&gt;
+
+        &lt;label htmlFor=&quot;lastName&quot;&gt;Last name&lt;/label&gt;
+        &lt;input
+          type=&quot;text&quot;
+          name=&quot;lastName&quot;
+          value={name.lastName}
+          onChange={handleChange}
+        /&gt;
+      &lt;/form&gt;
+      
+      &lt;br/&gt;
+
+      &lt;span&gt;{name.firstName} {name.lastName}&lt;/span&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default Form;</code></pre><p id="9e3149ab-8941-411a-82f5-2dfbfedfa2f5" class=""><code>App.js</code></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="d4f6ecda-b5ba-4414-bd5c-2af78162066c" class="code"><code class="language-JavaScript">import &#x27;./App.css&#x27;;
+import Form from &#x27;./Form&#x27;;
+
+function App() {
+  return (
+    &lt;div className=&quot;App&quot;&gt;
+      &lt;Form/&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;</code></pre><h1 id="f3c9f810-a48b-49ac-937a-6fb8f471029d" class="">Walidacja</h1><blockquote id="cce7b472-24ac-450c-a002-536e77303df2" class="">repo z projektem: <a href="https://github.com/Matetorture/React-example/tree/formWithValidation/my-app">https://github.com/Matetorture/React-example/tree/formWithValidation/my-app</a></blockquote><p id="9686a75e-2676-47ea-b300-72d4c07583d4" class=""><code>Form.js</code></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3b35b20c-0117-4b7b-a17b-bee55c470b34" class="code"><code class="language-JavaScript">import &#x27;./Form.css&#x27;;
+import React, { useState } from &#x27;react&#x27;;
+
+function Form() {
+  const [input, setInput] = useState({ firstName: &#x27;&#x27;, lastName: &#x27;&#x27; });
+  const [errors, setErrors] = useState({ firstName: &#x27;&#x27;, lastName: &#x27;&#x27; });
+
+  const handleChange = (event) =&gt; {
+    const { name, value } = event.target;
+    setInput({ ...input, [name]: value });
+
+    const newErrors = { ...errors };
+    switch (name) {
+      case &#x27;firstName&#x27;:
+        if (value.length &lt; 3) {
+          newErrors.firstName = &#x27;Imię musi mieć co najmniej 3 znaki&#x27;;
+        } else if (value.length &gt; 64) {
+          newErrors.firstName = &#x27;Imię może mieć maksymalnie 64 znaki&#x27;;
+        } else if (/[\d\W_]/.test(value)) {
+          newErrors.firstName = &#x27;Imię nie może zawierać cyfr ani znaków specjalnych&#x27;;
+        } else {
+          newErrors.firstName = &#x27;&#x27;;
+        }
+        break;
+      case &#x27;lastName&#x27;:
+        if (value.length &lt; 3) {
+          newErrors.lastName = &#x27;Nazwisko musi mieć co najmniej 3 znaki&#x27;;
+        } else if (value.length &gt; 64) {
+          newErrors.lastName = &#x27;Nazwisko może mieć maksymalnie 64 znaki&#x27;;
+        } else if (/[\d\W_]/.test(value)) {
+          newErrors.lastName = &#x27;Nazwisko nie może zawierać cyfr ani znaków specjalnych&#x27;;
+        } else {
+          newErrors.lastName = &#x27;&#x27;;
+        }
+        break;
+      default:
+        break;
+    }
+    setErrors(newErrors);
+  };
+
+  const handleSubmit = (event) =&gt; {
+    event.preventDefault();
+
+    if (errors.firstName || errors.lastName || input.firstName === &#x27;&#x27; || input.lastName === &#x27;&#x27;) {
+      return;
+    }
+
+    console.log(&#x27;Dane przesłane:&#x27;, input);
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;form onSubmit={handleSubmit}&gt;
+        &lt;label htmlFor=&quot;firstName&quot;&gt;Imię&lt;/label&gt;
+        &lt;input
+          type=&quot;text&quot;
+          name=&quot;firstName&quot;
+          value={input.firstName}
+          onChange={handleChange}
+        /&gt;
+        &lt;br/&gt;
+        {errors.firstName &amp;&amp; &lt;span className=&quot;error&quot;&gt;{errors.firstName}&lt;/span&gt;}
+
+        &lt;br /&gt;
+        &lt;br /&gt;
+
+        &lt;label htmlFor=&quot;lastName&quot;&gt;Nazwisko&lt;/label&gt;
+        &lt;input
+          type=&quot;text&quot;
+          name=&quot;lastName&quot;
+          value={input.lastName}
+          onChange={handleChange}
+        /&gt;
+        &lt;br/&gt;
+        {errors.lastName &amp;&amp; &lt;span className=&quot;error&quot;&gt;{errors.lastName}&lt;/span&gt;}
+
+        &lt;br /&gt;
+        &lt;br /&gt;
+
+        &lt;button type=&quot;submit&quot;&gt;Wyślij&lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default Form;</code></pre><p id="084ae155-c1f8-4b8a-870e-5c6bdfe1b2b4" class=""><code>Form.css</code></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="dc443b5d-0a6e-4ca8-9449-842046be56b5" class="code"><code class="language-CSS">.error{
+    color: red;
+}</code></pre><p id="7894ee17-c741-4a09-8384-b23d49e77df4" class=""><code>App.js</code></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="edf41d6f-c385-49a2-86f5-f3752d5163ab" class="code"><code class="language-JavaScript">import &#x27;./App.css&#x27;;
+import Form from &#x27;./Form&#x27;;
+
+function App() {
+  return (
+    &lt;div className=&quot;App&quot;&gt;
+      &lt;Form/&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;</code></pre></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
